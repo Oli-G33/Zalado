@@ -3,45 +3,48 @@ import AddressForm from './AddressForm';
 
 const Shipping = ({
   values,
-  errors,
   touched,
-  handleBlur,
+  errors,
   handleChange,
+  handleBlur,
   setFieldValue
 }) => {
   return (
     <Box m="30px auto">
+      {/* BILLING FORM */}
       <Box>
         <Typography sx={{ mb: '15px' }} fontSize="18px">
           Billing Information
         </Typography>
         <AddressForm
           type="billingAddress"
-          value={values.billingAddress}
-          errors={errors}
+          values={values.billingAddress}
           touched={touched}
+          errors={errors}
           handleBlur={handleBlur}
           handleChange={handleChange}
         />
       </Box>
+
       <Box mb="20px">
         <FormControlLabel
-          label="Same shipping address"
           control={
             <Checkbox
               defaultChecked
               value={values.shippingAddress.isSameAddress}
-              onChange={() => {
+              onChange={() =>
                 setFieldValue(
                   'shippingAddress.isSameAddress',
                   !values.shippingAddress.isSameAddress
-                );
-              }}
+                )
+              }
             />
           }
+          label="Same for Shipping Address"
         />
       </Box>
-      {/* Shipping Form */}
+
+      {/* SHIPPING FORM */}
       {!values.shippingAddress.isSameAddress && (
         <Box>
           <Typography sx={{ mb: '15px' }} fontSize="18px">
@@ -49,9 +52,9 @@ const Shipping = ({
           </Typography>
           <AddressForm
             type="shippingAddress"
-            value={values.shippingAddress}
-            errors={errors}
+            values={values.shippingAddress}
             touched={touched}
+            errors={errors}
             handleBlur={handleBlur}
             handleChange={handleChange}
           />

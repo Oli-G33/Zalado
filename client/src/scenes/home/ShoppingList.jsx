@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, Tab, Tabs, useMediaQuery } from '@mui/material';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Box from '@mui/material/Box';
 import Item from '../../components/Item';
+import { Typography } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { useDispatch, useSelector } from 'react-redux';
 import { setItems } from '../../state';
-import { convertLength } from '@mui/material/styles/cssUtils';
 
 const ShoppingList = () => {
   const dispatch = useDispatch();
-  const [value, setValue] = useState();
+  const [value, setValue] = useState('all');
   const items = useSelector(state => state.cart.items);
-  const isNonMobile = useMediaQuery('(min-width:600px)');
-  console.log('items:', items);
+  const breakPoint = useMediaQuery('(min-width:600px)');
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -27,7 +29,7 @@ const ShoppingList = () => {
 
   useEffect(() => {
     getItems();
-  }, []); // eslint-disable-line react-hook/exhaustive-deps
+  }, []); // eslint-disable-line
 
   const topRatedItems = items.filter(
     item => item.attributes.category === 'topRated'
@@ -50,7 +52,7 @@ const ShoppingList = () => {
         value={value}
         onChange={handleChange}
         centered
-        TabIndicatorProps={{ sx: { display: isNonMobile ? 'block' : 'none' } }}
+        TabIndicatorProps={{ sx: { display: breakPoint ? 'block' : 'none' } }}
         sx={{
           m: '25px',
           '& .MuiTabs-flexContainer': {
@@ -58,10 +60,10 @@ const ShoppingList = () => {
           }
         }}
       >
-        <Tab label="ALL" value="all"></Tab>
-        <Tab label="NEW ARRIVALS" value="newArrivals"></Tab>
-        <Tab label="BEST SELLERS" value="bestSellers"></Tab>
-        <Tab label="TOP RATED" value="topRated"></Tab>
+        <Tab label="ALL" value="all" />
+        <Tab label="NEW ARRIVALS" value="newArrivals" />
+        <Tab label="BEST SELLERS" value="bestSellers" />
+        <Tab label="TOP RATED" value="topRated" />
       </Tabs>
       <Box
         margin="0 auto"
@@ -71,7 +73,6 @@ const ShoppingList = () => {
         rowGap="20px"
         columnGap="1.33%"
       >
-        {' '}
         {value === 'all' &&
           items.map(item => (
             <Item item={item} key={`${item.name}-${item.id}`} />
